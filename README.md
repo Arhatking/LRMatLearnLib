@@ -44,3 +44,40 @@ print("Percent of predictions off my less than 1: ",np.sum(abs(y_test-y_predict)
     MAE: 0.6910439339771605
     Percent of predictions off my less than 1:  0.7603603243318903
 
+
+## Using Robust Principle Component Analysis for Background Forground Seperation
+
+Import packages, open the video file, and flatten the frames into vectors.  
+
+```python
+import sys
+sys.path.append('../')
+from datasets.data_loader import *
+from RPCA.algorithms import *
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+
+v=load_video("../datasets/videos/escalator.avi")
+(n_frames,d1,d2)=v.shape
+v=v.reshape(n_frames, d1*d2)
+
+
+```
+run altProjNiave, a basic RPCA algorithm.  The first arguement is the matrix to be decomposed, the second is the rank of the low rank matrix, and the third is the number of entries in the sparse matrix.
+
+```python
+(L,S)=altProjNiave(v, 2,100*n_frames)
+```
+Reshape the frames back into images and plot them. 
+
+```python
+L=L.reshape(n_frames,d1,d2)
+S=S.reshape(n_frames,d1,d2)
+v=v.reshape(n_frames,d1,d2)
+all=np.concatenate((v,L,S), axis=2)
+
+plt.imshow(all[1,:,:])
+plt.show()
+```
+![png](escalator.png)
+

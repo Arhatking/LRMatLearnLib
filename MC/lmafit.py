@@ -1,10 +1,13 @@
 import numpy as np
 from math import *
 from scipy.sparse import coo_matrix
+from util.util_MC import *
+
 def lmafit_mc_adp(m,n,r,known,data):
     L = len(data);
 
     # set parameters
+    # TODO: parameter selection
     tol = 1e-5;
     maxit = 500;
     iprint = 2;
